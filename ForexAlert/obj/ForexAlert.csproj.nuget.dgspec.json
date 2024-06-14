@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/khanhhua/Documents/Coding/dotnet/HabitLogger/HabitLogger.csproj": {}
+    "/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/ForexAlert.csproj": {}
   },
   "projects": {
-    "/Users/khanhhua/Documents/Coding/dotnet/HabitLogger/HabitLogger.csproj": {
+    "/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/ForexAlert.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/khanhhua/Documents/Coding/dotnet/HabitLogger/HabitLogger.csproj",
-        "projectName": "HabitLogger",
-        "projectPath": "/Users/khanhhua/Documents/Coding/dotnet/HabitLogger/HabitLogger.csproj",
+        "projectUniqueName": "/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/ForexAlert.csproj",
+        "projectName": "ForexAlert",
+        "projectPath": "/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/ForexAlert.csproj",
         "packagesPath": "/Users/khanhhua/.nuget/packages/",
-        "outputPath": "/Users/khanhhua/Documents/Coding/dotnet/HabitLogger/obj/",
+        "outputPath": "/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/khanhhua/.nuget/NuGet/NuGet.Config"
@@ -32,22 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "dependencies": {
-            "Microsoft.Data.Sqlite": {
-              "target": "Package",
-              "version": "[8.0.6, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",

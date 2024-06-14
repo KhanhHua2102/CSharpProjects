@@ -38,3 +38,4 @@
 /Users/khanhhua/Documents/Coding/dotnet/HabitLogger/obj/Debug/net8.0/HabitLogger.pdb
 /Users/khanhhua/Documents/Coding/dotnet/HabitLogger/obj/Debug/net8.0/HabitLogger.genruntimeconfig.cache
 /Users/khanhhua/Documents/Coding/dotnet/HabitLogger/obj/Debug/net8.0/ref/HabitLogger.dll
+/Users/khanhhua/Documents/Coding/dotnet/HabitLogger/obj/Debug/net8.0/HabitLogger.sourcelink.json

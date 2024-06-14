@@ -1,0 +1,5 @@
+/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/obj/Debug/net8.0/ForexAlert.GeneratedMSBuildEditorConfig.editorconfig
+/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/obj/Debug/net8.0/ForexAlert.AssemblyInfoInputs.cache
+/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/obj/Debug/net8.0/ForexAlert.AssemblyInfo.cs
+/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/obj/Debug/net8.0/ForexAlert.csproj.CoreCompileInputs.cache
+/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/obj/Debug/net8.0/ForexAlert.sourcelink.json
