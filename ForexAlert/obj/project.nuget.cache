@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "NC5LTcJ85LW/dJBiZbis0J4aBAYapot7T9aVrNWlHjksqqAAdupaOwNy7Bht/z7O3CjJC9o3XVAf0HokZ/1NwQ==",
+  "dgSpecHash": "liKUBflxocE=",
   "success": true,
   "projectFilePath": "/Users/khanhhua/Documents/Coding/dotnet/ForexAlert/ForexAlert.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/khanhhua/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.4/microsoft.codeanalysis.analyzers.3.3.4.nupkg.sha512",
+    "/Users/khanhhua/.nuget/packages/roslynator.analyzers/4.12.4/roslynator.analyzers.4.12.4.nupkg.sha512",
+    "/Users/khanhhua/.nuget/packages/stylecop.analyzers/1.1.118/stylecop.analyzers.1.1.118.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -1,20 +1,18 @@
-﻿namespace ForexAlert;
+﻿using System.Text.Json;
 
-class Program
+
+namespace ForexAlert;
+
+public static class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
+        Console.WriteLine();
         Console.WriteLine("Forex Alert!");
 
-        var currencyCode = "vnd";
-        var date = DateTime.Today.ToString();
-        var apiVersion = "v1";
-        var endpoint = $"/currencies/{currencyCode}";
-        var url = $"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@{date}/{apiVersion}/{endpoint}.json";
-
+        var currentPrice = await GetPriceApiAsync("usd", "vnd");
+        Console.WriteLine(currentPrice);
     }
-
-    // static void GetUserInput();
 
     private static string GetInput()
     {
@@ -28,19 +26,35 @@ class Program
         return input;
     }
 
-    public static async Task<string> GetPriceApiAsync(string url)
+    private static async Task<string> GetPriceApiAsync(string currencyFrom, string currencyTo)
     {
+        var date = "latest";
+        var apiVersion = "v1";
+        var endpoint = $"currencies/{currencyFrom}";
+        var url = $"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@{date}/{apiVersion}/{endpoint}.json";
+
         using var client = new HttpClient();
+
         try
         {
             var response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            return response.RequestMessage.ToString();
+            var content = await response.Content.ReadAsStringAsync();
+
+            JsonDocument jsonDocument = JsonDocument.Parse(content);
+            JsonElement root = jsonDocument.RootElement;
+
+            root.TryGetProperty(currencyFrom, out JsonElement currencyFromElement);
+            currencyFromElement.TryGetProperty(currencyTo, out JsonElement currencyToElement);
+
+            return currencyToElement.ToString();
         }
-        catch (Exception e)
+        catch (HttpRequestException e)
         {
-            Console.WriteLine(e.Message);
+            Console.WriteLine("\nException Caught!");
+            Console.WriteLine("Message :{0} ", e.Message);
+            return null;
         }
     }
 }
