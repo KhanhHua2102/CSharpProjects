@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Net;
+using System.Net.Mail;
 using Microsoft.EntityFrameworkCore;
 
 class Program
@@ -18,6 +19,7 @@ class Program
             Console.WriteLine("Enter 4 to remove a contact");
             Console.WriteLine("Enter 5 to find a contact through phone number");
             Console.WriteLine("Enter 6 to delete all contacts");
+            Console.WriteLine("Enter 7 to Send an email");
 
             decimal parsedValue = decimal.Parse(GetInput());
             int option = Convert.ToInt32(parsedValue);
@@ -101,6 +103,28 @@ class Program
                 case 6:
                     await DeleteAllContacts(db);
                     Console.WriteLine("\nDeleted all contacts.");
+                    break;
+
+                case 7:
+                    Console.WriteLine("\nLook for the email by their phone number:");
+                    phoneNumber = GetInput();
+
+                    string? toEmail = null;
+                    contact = await FindContact(db, phoneNumber);
+                    if (contact != null)
+                    {
+                        Console.WriteLine($"\nFound contact: Name={contact.Name}, Email={contact.Email}, Phone={contact.PhoneNumber}");
+
+                        toEmail = contact.Email;
+                        string subject = "Test mail";
+                        string body = "This is a test mail only.";
+                        SendEmail(toEmail, subject, body);
+                        Console.WriteLine("Email sent!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Contact not found, please try again with another phone number");
+                    }
                     break;
             }
         }
@@ -206,5 +230,33 @@ class Program
         }
 
         return input;
+    }
+
+    static void SendEmail(string toEmail, string subject, string body)
+    {
+        var fromAddress = new MailAddress("tonyhua212002@gmail.com", "Henry Hua");
+        var toAddress = new MailAddress(toEmail);
+        const string fromPassword = "joby buwf yhcw xmuw";
+        const string smtpHost = "smtp.gmail.com";
+        const int smtpPort = 587;
+
+        var smtp = new SmtpClient
+        {
+            Host = smtpHost,
+            Port = smtpPort,
+            EnableSsl = true,
+            DeliveryMethod = SmtpDeliveryMethod.Network,
+            UseDefaultCredentials = false,
+            Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+        };
+
+        using (var message = new MailMessage(fromAddress, toAddress)
+        {
+            Subject = subject,
+            Body = body
+        })
+        {
+            smtp.Send(message);
+        }
     }
 }
