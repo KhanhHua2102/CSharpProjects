@@ -5,17 +5,22 @@ namespace ForexAlert;
 
 public static class Program
 {
-    private static async Task Main(string[] args)
+    private static async Task Main()
     {
         Console.WriteLine();
-        Console.WriteLine("Forex Alert!");
+        Console.WriteLine("Welcome to Forex Alert");
 
-        var currentPrice = await GetPriceApiAsync("usd", "vnd");
-        Console.WriteLine(currentPrice);
+        var currencyFrom = GetInput("Please input first currency:");
+        var currencyTo = GetInput("Please input second currency:");
+
+        var currentPrice = await GetPriceApiAsync(currencyFrom, currencyTo);
+        Console.WriteLine(Math.Round((decimal)currentPrice, 2));
     }
 
-    private static string GetInput()
+    private static string GetInput(string inputString)
     {
+        Console.WriteLine(inputString);
+
         var input = Console.ReadLine();
         while (input == null)
         {
@@ -26,7 +31,7 @@ public static class Program
         return input;
     }
 
-    private static async Task<string> GetPriceApiAsync(string currencyFrom, string currencyTo)
+    private static async Task<float?> GetPriceApiAsync(string currencyFrom, string currencyTo)
     {
         var date = "latest";
         var apiVersion = "v1";
@@ -48,7 +53,9 @@ public static class Program
             root.TryGetProperty(currencyFrom, out JsonElement currencyFromElement);
             currencyFromElement.TryGetProperty(currencyTo, out JsonElement currencyToElement);
 
-            return currencyToElement.ToString();
+            float.TryParse(currencyToElement.ToString(), out float result);
+
+            return result;
         }
         catch (HttpRequestException e)
         {
