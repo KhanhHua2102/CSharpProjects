@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Numerics;
+using Microsoft.EntityFrameworkCore;
 
 class Program
 {
@@ -6,54 +7,104 @@ class Program
     {
         using var db = new PhoneBookContext();
 
-        string name = "Henry";
-        string email = "henry@mail.com";
-        string phoneNumber = "0421857998";
-
-        await DeleteAllContacts(db);
-        Console.WriteLine("Deleted all contacts.");
-
-        Console.WriteLine("Add new contact");
-        await AddContact(db, name, email, phoneNumber);
-
-        Console.WriteLine("Print all contacts");
-        var contactList = await GetAllContacts(db);
-        if (contactList.Count == 0)
+        bool exit = false;
+        do
         {
-            Console.WriteLine("No contacts");
-        }
-        else
-        {
-            foreach (Contact record in contactList)
+            Console.WriteLine("\nWelcome to your PhoneBook");
+            Console.WriteLine("Enter 0 to Exit");
+            Console.WriteLine("Enter 1 to list all contacts");
+            Console.WriteLine("Enter 2 to add new contact");
+            Console.WriteLine("Enter 3 to update a contact's name");
+            Console.WriteLine("Enter 4 to remove a contact");
+            Console.WriteLine("Enter 5 to find a contact through phone number");
+            Console.WriteLine("Enter 6 to delete all contacts");
+
+            decimal parsedValue = decimal.Parse(GetInput());
+            int option = Convert.ToInt32(parsedValue);
+
+            switch (option)
             {
-                Console.WriteLine(record);
+                case 0:
+                    exit = true;
+                    break;
+
+                case 1:
+                    Console.WriteLine("\nList all contacts");
+                    var contactList = await GetAllContacts(db);
+                    if (contactList.Count == 0)
+                    {
+                        Console.WriteLine("No contacts");
+                    }
+                    else
+                    {
+                        foreach (Contact record in contactList)
+                        {
+                            Console.WriteLine(record);
+                        }
+                    }
+                    break;
+
+                case 2:
+                    Console.WriteLine("\nPlease enter your name:");
+                    string name = GetInput();
+
+                    string? email = null;
+                    do
+                    {
+                        Console.WriteLine("\nPlease enter a valid email address!");
+                        email = GetInput();
+                    }
+                    while (!EmailIsValid(email));
+
+                    string? phoneNumber = null;
+                    do
+                    {
+                        Console.WriteLine("\nPlease enter a valid phone number");
+                        phoneNumber = GetInput();
+                    }
+                    while (!PhoneNumberIsValid(phoneNumber));
+
+                    Console.WriteLine("\nAdd new contact");
+                    await AddContact(db, name, email, phoneNumber);
+
+                    break;
+
+                case 3:
+                    Console.WriteLine("Enter the phone number you want to change detail");
+                    phoneNumber = GetInput();
+                    Console.WriteLine("\nPlease enter new name:");
+                    name = GetInput();
+                    Console.WriteLine($"\nUpdate contact's name to {name}");
+                    await UpdateContact(db, phoneNumber, name);
+                    break;
+
+                case 4:
+                    Console.WriteLine("Enter the phone number you want to remove");
+                    phoneNumber = GetInput();
+
+                    break;
+
+                case 5:
+                    Console.WriteLine("Enter the phone number you want to find");
+                    phoneNumber = GetInput();
+                    Contact? contact = await FindContact(db, phoneNumber);
+                    if (contact != null)
+                    {
+                        Console.WriteLine($"\nFound contact: Name={contact.Name}, Email={contact.Email}, Phone={contact.PhoneNumber}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Contact not found");
+                    }
+                    break;
+
+                case 6:
+                    await DeleteAllContacts(db);
+                    Console.WriteLine("\nDeleted all contacts.");
+                    break;
             }
         }
-
-        // Update contact's name
-        var contact = await FindContact(db, phoneNumber);
-        if (contact != null)
-        {
-            Console.WriteLine($"Found contact: Name={contact.Name}, Email={contact.Email}, Phone={contact.PhoneNumber}");
-        }
-        else
-        {
-            Console.WriteLine("Contact not found");
-        }
-
-        Console.WriteLine("Update contact's name");
-        await UpdateContact(db, phoneNumber, "Henry Hua");
-
-        contact = await FindContact(db, phoneNumber);
-        if (contact != null)
-        {
-            Console.WriteLine($"Found contact: Name={contact.Name}, Email={contact.Email}, Phone={contact.PhoneNumber}");
-        }
-        else
-        {
-            Console.WriteLine("Contact not found");
-        }
-
+        while (!exit);
     }
 
 
@@ -82,11 +133,26 @@ class Program
 
     static async Task<bool> UpdateContact(PhoneBookContext db, string phoneNumber, string newName)
     {
-        var contact = await db.Contacts
+        Contact? contact = await db.Contacts
             .FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber);
         if (contact != null)
         {
             contact.Name = newName;
+            await db.SaveChangesAsync();
+            return true;
+        }
+        Console.WriteLine("Contact not found.");
+        return false;
+    }
+
+    static async Task<bool> RemoveContact(PhoneBookContext db, string phoneNumber)
+    {
+        Contact? contact = await db.Contacts
+            .FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber);
+
+        if (contact != null)
+        {
+            db.Remove(contact);
             await db.SaveChangesAsync();
             return true;
         }
@@ -108,5 +174,37 @@ class Program
         await db.SaveChangesAsync();
 
         db.ChangeTracker.Clear();
+    }
+
+    static bool PhoneNumberIsValid(string phoneNumber)
+    {
+        if (phoneNumber.StartsWith('0') && phoneNumber.Length == 10)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    static bool EmailIsValid(string email)
+    {
+        if (email.Contains('@'))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    static string GetInput()
+    {
+        var input = Console.ReadLine();
+        while (input == null)
+        {
+            Console.WriteLine("Please try again!");
+            input = Console.ReadLine();
+        }
+
+        return input;
     }
 }

@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 public class PhoneBookContext : DbContext
 {

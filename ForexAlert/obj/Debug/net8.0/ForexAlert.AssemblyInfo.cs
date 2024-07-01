@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ForexAlert")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+80d75070a4eb6c2ace0998469f93e7ab95d56c7e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d67a8676a2d896437f2fabd1f9731a7748408b64")]
 [assembly: System.Reflection.AssemblyProductAttribute("ForexAlert")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ForexAlert")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
