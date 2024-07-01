@@ -81,13 +81,24 @@ class Program
                     break;
 
                 case 4:
-                    Console.WriteLine("Enter the phone number you want to remove");
+                    Console.WriteLine("\nEnter the phone number you want to remove");
                     phoneNumber = GetInput();
+
+                    bool success = await RemoveContact(db, phoneNumber);
+
+                    if (success)
+                    {
+                        Console.WriteLine("Contact removed");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Issue occurred");
+                    }
 
                     break;
 
                 case 5:
-                    Console.WriteLine("Enter the phone number you want to find");
+                    Console.WriteLine("\nEnter the phone number you want to find");
                     phoneNumber = GetInput();
                     Contact? contact = await FindContact(db, phoneNumber);
                     if (contact != null)
