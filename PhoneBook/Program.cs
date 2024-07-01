@@ -234,10 +234,10 @@ class Program
 
     static void SendEmail(string toEmail, string subject, string body)
     {
-        var fromAddress = new MailAddress("tonyhua212002@gmail.com", "Henry Hua");
+        var fromAddress = new MailAddress("mail@gmail.com", "Henry Hua");
         var toAddress = new MailAddress(toEmail);
-        const string fromPassword = "joby buwf yhcw xmuw";
-        const string smtpHost = "smtp.gmail.com";
+        const string fromPassword = "joby buwf yhcw xmuw"; //  Example password (use App Password for Gmail client)
+        const string smtpHost = "smtp.gmail.com"; // Example host for Gmail client
         const int smtpPort = 587;
 
         var smtp = new SmtpClient
