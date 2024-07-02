@@ -23,7 +23,6 @@ class Program
 
             decimal parsedValue = decimal.Parse(GetInput());
             int option = Convert.ToInt32(parsedValue);
-
             switch (option)
             {
                 case 0:
